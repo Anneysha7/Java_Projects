@@ -4,80 +4,147 @@ import java.util.Scanner;
 public class TicTacToe {
 
     public static void main(String[] args) {
-        char[][] gameBoard = {{' ', '|', ' ', '|', ' '},
-                              {'-', '+', '-', '+', '-'},
-                              {' ', '|', ' ', '|', ' '},
-                              {'-', '+', '-', '+', '-'},
-                              {' ', '|', ' ', '|', ' '}};
+
+
+        // draws the game board
+
+        char[][] gameBoard = {
+                {' ', '|', ' ', '|', ' '},
+                {'-', '+', '-', '+', '-'},
+                {' ', '|', ' ', '|', ' '},
+                {'-', '+', '-', '+', '-'},
+                {' ', '|', ' ', '|', ' '}
+        };
 
         printGameBoard(gameBoard);
 
-        Scanner scanner = new Scanner(System.in);
+        // begin game loop
 
-        while (!boardFull(gameBoard)) {
-            int humanMove;
-            int cpuMove;
-            System.out.println("Enter your move: ");
-            humanMove = scanner.nextInt();
+        while (!checkIsBoardFull(gameBoard)) {
 
-            playPiece(gameBoard, humanMove, "Human");
+            // asks the user for input
 
-            Random rand = new Random();
-            cpuMove = rand.nextInt(9) + 1;
-            while (humanMove == cpuMove) {
-                cpuMove = rand.nextInt();
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Please enter your move (1-9): ");
+            int humanMove = scanner.nextInt();
+
+            while (checkIsSpotFull(gameBoard, humanMove)) {
+                humanMove = scanner.nextInt();
             }
 
-            playPiece(gameBoard, cpuMove, "CPU");
+            playMove(gameBoard, humanMove, 'X');
+
+            if (checkIsBoardFull(gameBoard)) {
+                printGameBoard(gameBoard);
+                break;
+            }
+
+            // sends a randomised computer input
+
+            int cpuMove;
+            Random rand = new Random();
+            cpuMove = rand.nextInt(9) + 1;
+
+            while (checkIsSpotFull(gameBoard, cpuMove)) {
+                cpuMove = rand.nextInt(9) + 1;
+            }
+
+            playMove(gameBoard, cpuMove, 'O');
+
+            // prints gameboard after one round
 
             printGameBoard(gameBoard);
-        }
 
-    }
-
-    public static void playPiece(char[][] gameBoard, int move, String player){
-
-        char playerInput = ' ';
-
-        if (player.equals("Human")) {
-            playerInput = 'X';
-        } else if (player.equals("CPU")){
-            playerInput = 'O';
-        }
-
-        switch (move) {
-            case 1:
-                gameBoard[0][0] = playerInput;
-                break;
-            case 2:
-                gameBoard[0][2] = playerInput;
-                break;
-            case 3:
-                gameBoard[0][4] = playerInput;
-                break;
-            case 4:
-                gameBoard[2][0] = playerInput;
-                break;
-            case 5:
-                gameBoard[2][2] = playerInput;
-                break;
-            case 6:
-                gameBoard[2][4] = playerInput;
-                break;
-            case 7:
-                gameBoard[4][0] = playerInput;
-                break;
-            case 8:
-                gameBoard[4][2] = playerInput;
-                break;
-            case 9:
-                gameBoard[4][4] = playerInput;
-                break;
-            default:
-                break;
         }
     }
 
+    /*
+
+    Converts gameboard coordinates to index numbers 1-9
+
+    @param gameBoard        takes the most recent gameboard
+    @param move             takes the index move number
+    @param player           takes X for human, O for cpu
+
+     */
+
+    public static void playMove(char[][] gameBoard, int move, char player){
+        if (move == 1){
+            gameBoard[0][0] = player;
+        } else if (move == 2){
+            gameBoard[0][2] = player;
+        } else if (move == 3){
+            gameBoard[0][4] = player;
+        } else if (move == 4){
+            gameBoard[2][0] = player;
+        } else if (move == 5){
+            gameBoard[2][2] = player;
+        } else if (move == 6){
+            gameBoard[2][4] = player;
+        } else if (move == 7){
+            gameBoard[4][0] = player;
+        } else if (move == 8){
+            gameBoard[4][2] = player;
+        } else if (move == 9){
+            gameBoard[4][4] = player;
+        }
+    }
+
+    /*
+
+    Checks if a certain spot is full.
+
+    @param gameBoard        takes the most updated gameboard
+    @return                 true if the spot is full
+                            false if the spot is not full
+
+     */
+
+    public static boolean checkIsSpotFull(char[][] gameBoard, int move){
+        boolean isFull = false;
+        isFull = move == 1 && gameBoard[0][0] != ' ' ||
+                move == 2 && gameBoard[0][2] != ' ' ||
+                move == 3 && gameBoard[0][4] != ' ' ||
+                move == 4 && gameBoard[2][0] != ' ' ||
+                move == 5 && gameBoard[2][2] != ' ' ||
+                move == 6 && gameBoard[2][4] != ' ' ||
+                move == 7 && gameBoard[4][0] != ' ' ||
+                move == 8 && gameBoard[4][2] != ' ' ||
+                move == 9 && gameBoard[4][4] != ' ';
+        return isFull;
+    }
+
+    /*
+
+    Checks whether a board is full and no more moves can be played
+
+    @param gameBoard        takes the most recent gameboard
+    @return                 true if board is full
+                            false if board is not full
+
+     */
+
+    public static boolean checkIsBoardFull(char[][] gameBoard){
+        boolean isBoardFull = false;
+
+        isBoardFull = gameBoard[0][0] != ' ' &&
+                gameBoard[0][2] != ' ' &&
+                gameBoard[0][4] != ' ' &&
+                gameBoard[2][0] != ' ' &&
+                gameBoard[2][2] != ' ' &&
+                gameBoard[2][4] != ' ' &&
+                gameBoard[4][0] != ' ' &&
+                gameBoard[4][2] != ' ' &&
+                gameBoard[4][4] != ' ';
+        return isBoardFull;
+    }
+
+    /*
+    Prints the gameboard
+
+    @param gameBoard       reads through the most updated gameboard
+
+     */
     public static void printGameBoard(char[][] gameBoard){
         for (char[] row: gameBoard){
             for (char col: row){
@@ -85,19 +152,5 @@ public class TicTacToe {
             }
             System.out.println();
         }
-    }
-
-    public static boolean boardFull(char[][] gameBoard){
-        boolean isFull = false;
-        for (char[] row: gameBoard) {
-            for (char col : row) {
-                if (col != ' ') {
-                    isFull = true;
-                } else {
-                    isFull = false;
-                }
-            }
-        }
-        return isFull;
     }
 }
