@@ -34,8 +34,9 @@ public class TicTacToe {
 
             playMove(gameBoard, humanMove, 'X');
 
-            if (checkIsBoardFull(gameBoard)) {
+            if (checkIsBoardFull(gameBoard) || gameOver(gameBoard)) {
                 printGameBoard(gameBoard);
+                System.out.println("Human wins!");
                 break;
             }
 
@@ -54,6 +55,11 @@ public class TicTacToe {
             // prints gameboard after one round
 
             printGameBoard(gameBoard);
+
+            if (gameOver(gameBoard)){
+                System.out.println("Computer wins!");
+                break;
+            }
 
         }
     }
@@ -140,6 +146,47 @@ public class TicTacToe {
     }
 
     /*
+
+    Ends the game if any of the patterns are complete
+
+    @param gameBoard            takes the most updated gameboard
+    @return                     true if a pattern is made
+                                false otherwise
+
+     */
+    public static boolean gameOver(char[][] gameBoard){
+
+        if (gameBoard[0][0] == 'X' && gameBoard[2][2] == 'X' && gameBoard[4][4] == 'X' ||  // top diagonal
+               gameBoard[0][2] == 'X' && gameBoard[2][2] == 'X' && gameBoard[4][2] == 'X' || // middle vertical
+               gameBoard[2][0] == 'X' && gameBoard[2][2] == 'X' && gameBoard[2][4] == 'X' || // middle horizontal
+               gameBoard[4][0] == 'X' && gameBoard[4][2] == 'X' && gameBoard[4][4] == 'X' || // bottom horizontal
+               gameBoard[0][0] == 'X' && gameBoard[0][2] == 'X' && gameBoard[0][4] == 'X' || // top horizontal
+               gameBoard[0][0] == 'X' && gameBoard[2][0] == 'X' && gameBoard[4][0] == 'X' || // left vertical
+               gameBoard[0][4] == 'X' && gameBoard[2][4] == 'X' && gameBoard[4][4] == 'X' || // right vertical
+               gameBoard[0][4] == 'X' && gameBoard[2][2] == 'X' && gameBoard[4][0] == 'X') // right diagonal
+                 {
+            return true;
+
+        } else if (gameBoard[0][0] == 'O' && gameBoard[2][2] == 'O' && gameBoard[4][4] == 'O' || // top diagonal
+                gameBoard[0][2] == 'O' && gameBoard[2][2] == 'O' && gameBoard[4][2] == 'O' || // middle vertical
+                gameBoard[2][0] == 'O' && gameBoard[2][2] == 'O' && gameBoard[2][4] == 'O' || // middle horizontal
+                gameBoard[4][0] == 'O' && gameBoard[4][2] == 'O' && gameBoard[4][4] == 'O' || // bottom horizontal
+                gameBoard[0][0] == 'O' && gameBoard[0][2] == 'O' && gameBoard[0][4] == 'O' || // top horizontal
+                gameBoard[0][0] == 'O' && gameBoard[2][0] == 'O' && gameBoard[4][0] == 'O' || // left vertical
+                gameBoard[0][4] == 'O' && gameBoard[2][4] == 'O' && gameBoard[4][4] == 'O' || // right vertical
+                gameBoard[0][4] == 'O' && gameBoard[2][2] == 'O' && gameBoard[4][0] == 'O') // right diagonal
+        {
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+    }
+
+    /*
+
     Prints the gameboard
 
     @param gameBoard       reads through the most updated gameboard
