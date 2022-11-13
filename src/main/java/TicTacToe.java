@@ -107,7 +107,7 @@ public class TicTacToe {
      */
 
     public static boolean checkIsSpotFull(char[][] gameBoard, int move){
-        boolean isFull = false;
+        boolean isFull;
         isFull = move == 1 && gameBoard[0][0] != ' ' ||
                 move == 2 && gameBoard[0][2] != ' ' ||
                 move == 3 && gameBoard[0][4] != ' ' ||
@@ -131,7 +131,7 @@ public class TicTacToe {
      */
 
     public static boolean checkIsBoardFull(char[][] gameBoard){
-        boolean isBoardFull = false;
+        boolean isBoardFull;
 
         isBoardFull = gameBoard[0][0] != ' ' &&
                 gameBoard[0][2] != ' ' &&
@@ -156,6 +156,7 @@ public class TicTacToe {
      */
     public static boolean gameOver(char[][] gameBoard){
 
+        // right diagonal
         if (gameBoard[0][0] == 'X' && gameBoard[2][2] == 'X' && gameBoard[4][4] == 'X' ||  // top diagonal
                gameBoard[0][2] == 'X' && gameBoard[2][2] == 'X' && gameBoard[4][2] == 'X' || // middle vertical
                gameBoard[2][0] == 'X' && gameBoard[2][2] == 'X' && gameBoard[2][4] == 'X' || // middle horizontal
@@ -167,22 +168,14 @@ public class TicTacToe {
                  {
             return true;
 
-        } else if (gameBoard[0][0] == 'O' && gameBoard[2][2] == 'O' && gameBoard[4][4] == 'O' || // top diagonal
+        } else return gameBoard[0][0] == 'O' && gameBoard[2][2] == 'O' && gameBoard[4][4] == 'O' || // top diagonal
                 gameBoard[0][2] == 'O' && gameBoard[2][2] == 'O' && gameBoard[4][2] == 'O' || // middle vertical
                 gameBoard[2][0] == 'O' && gameBoard[2][2] == 'O' && gameBoard[2][4] == 'O' || // middle horizontal
                 gameBoard[4][0] == 'O' && gameBoard[4][2] == 'O' && gameBoard[4][4] == 'O' || // bottom horizontal
                 gameBoard[0][0] == 'O' && gameBoard[0][2] == 'O' && gameBoard[0][4] == 'O' || // top horizontal
                 gameBoard[0][0] == 'O' && gameBoard[2][0] == 'O' && gameBoard[4][0] == 'O' || // left vertical
                 gameBoard[0][4] == 'O' && gameBoard[2][4] == 'O' && gameBoard[4][4] == 'O' || // right vertical
-                gameBoard[0][4] == 'O' && gameBoard[2][2] == 'O' && gameBoard[4][0] == 'O') // right diagonal
-        {
-            return true;
-
-        } else {
-
-            return false;
-
-        }
+                gameBoard[0][4] == 'O' && gameBoard[2][2] == 'O' && gameBoard[4][0] == 'O';
     }
 
     /*
